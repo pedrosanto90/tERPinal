@@ -1,11 +1,15 @@
 import mysql.connector
+from dotenv import load_dotenv, dotenv_values
+import os
+
+load_dotenv()
 
 def connectDB():
     try:
         mydb =  mysql.connector.connect(
             host="localhost",
-            user="root",
-            password="9811810fz",
+            user=os.getenv('USERNAME'),
+            password=os.getenv('PASSWORD'),
             database="erp"
         )    
     except:
@@ -26,12 +30,13 @@ def insertClient(client_number, client_name, client_address, client_phone, clien
     mydb =  mysql.connector.connect(
         host="localhost",
         user="root",
-        password="9811810fz"
+        password="9811810fz",
+        database="erp"
     )
 
     mycursor = mydb.cursor()
     sql = "INSERT INTO clients (client_number, client_name, client_address, client_phone, client_email) \
-    VALUES (%s, %s, %s)"
+    VALUES (%s, %s, %s, %s, %s)"
     val = (client_number, client_name, client_address, client_phone, client_email)
     mycursor.execute(sql, val)
     mydb.commit()
